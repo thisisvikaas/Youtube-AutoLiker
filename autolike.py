@@ -3,7 +3,6 @@ import time
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-
 class Youtube:
 
     def __init__(self,username,password,clink):
@@ -19,7 +18,6 @@ class Youtube:
 
         #Using a third party sign in as google sign-in is protected heavily :(
         youtube_bot.get('https://stackoverflow.com/users/signup')
-
         #Make the bot mimic human behaviour :P
         youtube_bot.find_element_by_xpath('//*[@id="openid-buttons"]/button[1]').click()
         youtube_bot.find_element_by_xpath('//*[@id="identifierId"]').send_keys(self.username)
@@ -27,17 +25,15 @@ class Youtube:
         youtube_bot.find_element_by_xpath('//*[@id="identifierNext"]/div/button/div[2]').click()
         time.sleep(2)
         youtube_bot.find_element_by_xpath('//*[@id="password"]/div[1]/div/div[1]/input').send_keys(self.password)
-        time.sleep(2)
         youtube_bot.find_element_by_xpath('//*[@id="passwordNext"]/div/button/div[2]').click()
         time.sleep(2)
-
         # We are now logged into Youtube :)
         youtube_bot.get(self.channel_link)
         print("\n Logged Into Youtube")
 
     def load_all_videos(self):
-
         youtube_bot = self.youtube_bot
+        #Initial scroll
         page_len = youtube_bot.execute_script(
             "window.scrollTo(0, document.documentElement.scrollHeight);"
             "var page_len=document.documentElement.scrollHeight;"
@@ -46,6 +42,7 @@ class Youtube:
         while (scroll_complete == False):
             page_count = page_len
             time.sleep(2)
+            #Scroll after every two seconds until page end
             page_len = youtube_bot.execute_script(
                 "window.scrollTo(0, document.documentElement.scrollHeight);"
                 "var page_len=document.documentElement.scrollHeight;"
@@ -55,6 +52,7 @@ class Youtube:
                 print("\n Scrolling Complete !!")
 
     def get_all_links(self):
+        #Get all links in a list
         global all_links
         youtube_bot = self.youtube_bot
         all_titles = youtube_bot.find_elements_by_id("video-title")
@@ -63,6 +61,7 @@ class Youtube:
 
     def like_all_videos(self):
         youtube_bot = self.youtube_bot
+        #Iterate over each link gathered and like the video if not liked
         for link in all_links:
             youtube_bot.get(link)
             time.sleep(3)
@@ -75,7 +74,7 @@ class Youtube:
                 time.sleep(1)
             elif like_button.get_attribute("class") == "style-scope ytd-menu-renderer force-icon-button style-default-active":
                 print("Already Liked !!", link)
-
+        print("All videos Liked !!")
 
 
 username = os.environ['GMAIL_USERNAME']
