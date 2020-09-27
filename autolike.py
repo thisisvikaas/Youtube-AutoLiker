@@ -57,7 +57,7 @@ class Youtube:
         youtube_bot = self.youtube_bot
         all_titles = youtube_bot.find_elements_by_id("video-title")
         all_links = [title.get_attribute('href') for title in all_titles]
-        print(all_links)
+        print(len(all_links))
 
     def like_all_videos(self):
         youtube_bot = self.youtube_bot
@@ -65,9 +65,9 @@ class Youtube:
         for link in all_links:
             youtube_bot.get(link)
             time.sleep(3)
-            #For Dislike - Change xpath to //*[@id="top-level-buttons"]/ytd-toggle-button-renderer[2]
+            #For dislike - Change xpath to //*[@id="top-level-buttons"]/ytd-toggle-button-renderer[2]
             like_button = youtube_bot.find_element_by_xpath('//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]')
-             #The class of the like button changes once we click it
+            #The class of the like button changes once we click it
             if like_button.get_attribute("class") == "style-scope ytd-menu-renderer force-icon-button style-text":
                 like_button.click()
                 print("Liked ", link)
