@@ -65,13 +65,14 @@ class Youtube:
         youtube_bot = self.youtube_bot
         for link in all_links:
             youtube_bot.get(link)
+            time.sleep(3)
             like_button = youtube_bot.find_element_by_xpath('//*[@id="top-level-buttons"]/ytd-toggle-button-renderer[1]')
              #The class of the like button changes once we click it
-            if like_button.get_attribute("class") == "style-scope ytd-toggle-button-renderer style-text":
+            if like_button.get_attribute("class") == "style-scope ytd-menu-renderer force-icon-button style-text":
                 like_button.click()
                 print("Liked ", link)
                 time.sleep(1)
-            elif like_button.get_attribute("class") == "style-scope ytd-toggle-button-renderer style-default-active":
+            elif like_button.get_attribute("class") == "style-scope ytd-menu-renderer force-icon-button style-default-active":
                 print("Already Liked !!")
 
 
